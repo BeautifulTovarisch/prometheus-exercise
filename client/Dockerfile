@@ -37,7 +37,7 @@ RUN yarn build
 
 FROM nginx:1.17.6-alpine as prod
 
-COPY --from=build /app/dist /var/www/vault-generator.com
+COPY --from=build /app/dist /var/www/world-data-viewer.com
 COPY nginx.conf /etc/nginx
 
 CMD [ "nginx", "-g", "daemon off;" ]

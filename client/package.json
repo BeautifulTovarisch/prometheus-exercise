@@ -1,9 +1,9 @@
 {
-    "name": "vault-generator",
+    "name": "world-data-viewer",
     "version": "1.0.0",
-    "description": "Web utility to generate ansible vault files",
+    "description": "Data browser for world sample dataset",
     "main": "index.js",
-    "repository": "https://github.com/BeautifulTovarisch/vault-generator",
+    "repository": "https://github.com/BeautifulTovarisch/prometheus-exercise",
     "author": "Anthony",
     "license": "MIT",
     "private": false,
