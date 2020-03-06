@@ -23,6 +23,12 @@ each operation.
     - update: Update an existing city
     - create: Create a new city
     - delete: Remove a city
+
+Raises:
+    - SQLAlchemyError: General exception caught for convenience
+
+TODO:
+    - Handle more specific exceptions
 """
 
 from sqlalchemy import (
@@ -34,6 +40,7 @@ from sqlalchemy import (
 )
 
 from sqlalchemy.sql import select
+from sqlalchemy.exc import SQLAlchemyError
 
 from database.mod import create_db_engine
 
@@ -52,7 +59,7 @@ def create(conn, city):
 
         return result.inserted_primary_key[0]
 
-    except Exception as err:
+    except SQLAlchemyError as err:
         print(err)
 
     finally:
@@ -62,7 +69,7 @@ def delete(conn, id):
     try:
         conn.execute(City.delete().where(City.c.id == id))
 
-    except Exception as err:
+    except SQLAlchemyError as err:
         print(err)
 
     finally:
@@ -75,7 +82,7 @@ def update(conn, id, city):
                           .values(city)
 
         conn.execute(update_stmt)
-    except Exception as err:
+    except SQLAlchemyError as err:
         print(err)
 
     finally:
@@ -89,7 +96,7 @@ def fetch(conn, id):
 
         return selection
 
-    except Exception as err:
+    except SQLAlchemyError as err:
         print(err)
 
     finally:
