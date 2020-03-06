@@ -17,7 +17,7 @@ services:
       USER_PASSWORD: "data_viewer_password"
 
     volumes:
-      - ./src:/mission-control/src
+      - ./server/src:/app/world-data-viewer/src/
 
   client:
     tty: true
