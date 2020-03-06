@@ -33,6 +33,8 @@ from sqlalchemy import (
     MetaData
 )
 
+from sqlalchemy.sql import select
+
 from database.mod import create_db_engine
 
 City = Table('city', MetaData(create_db_engine),
@@ -44,13 +46,11 @@ City = Table('city', MetaData(create_db_engine),
 
 def create(conn, city):
     try:
-        insert = City.insert().values(name=city['name'],
-                                      district=city['district'],
-                                      population=city['population'],
-                                      countrycode=city['countrycode'])
+        insert = City.insert().values(city)
+
         result = conn.execute(insert)
 
-        return result.inserted_primary_key
+        return result.inserted_primary_key[0]
 
     except Exception as err:
         print(err)
@@ -58,5 +58,39 @@ def create(conn, city):
     finally:
         conn.close()
 
+def delete(conn, id):
+    try:
+        conn.execute(City.delete().where(City.c.id == id))
+
+    except Exception as err:
+        print(err)
+
+    finally:
+        conn.close()
+
+def update(conn, id, city):
+    try:
+        update_stmt = City.update() \
+                          .where(City.c.id == id) \
+                          .values(city)
+
+        conn.execute(update_stmt)
+    except Exception as err:
+        print(err)
+
+    finally:
+        conn.close()
+
 def fetch(conn, id):
-    conn.close()
+    try:
+        selection = City.select().where(City.c.id == id)
+
+        conn.execute(selection).fetchone()
+
+        return selection
+
+    except Exception as err:
+        print(err)
+
+    finally:
+        conn.close()
