@@ -8,8 +8,7 @@ RUN pip install --no-cache-dir -r ./requirements.txt
 
 COPY src /app/world-data-viewer/src
 
-CMD [ "/bin/bash" ]
-
+CMD [ "python", "/app/world-data-viewer/src/main.py" ]
 
 # Run tests to prevent production build on failure
 FROM python:3.8.0 as test

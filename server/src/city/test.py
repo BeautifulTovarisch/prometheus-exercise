@@ -74,6 +74,23 @@ class Test(TestCase):
 
         u_conn.close()
 
+    def test_delete(self):
+        conn = create_db_engine().connect()
+        u_conn = create_db_engine().connect()
+
+        city = { "name": "TestCity",
+                 "district": "A",
+                 "population": 10,
+                 "countrycode": "USA" }
+
+        id = _create(u_conn, city)
+
+        delete(conn, id)
+
+        self.assertIsNone(_fetch(u_conn, id))
+
+        u_conn.close()
+
     def test_fetch(self):
         expected = ['Kabul',
                     'Qandahar',
@@ -84,4 +101,4 @@ class Test(TestCase):
 
         cities = [city['name'] for city in search(conn, 'AFG')]
 
-        self.assertEqual(expected, cities)
+        self.assertEqual(cities, expected)

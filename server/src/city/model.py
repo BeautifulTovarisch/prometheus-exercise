@@ -1,7 +1,7 @@
 """
-City
+City Model
 
-Model representing a city in a particular country.
+Represents a city in a particular country.
 
 SCHEMA:
 
@@ -27,7 +27,6 @@ from sqlalchemy import (
     MetaData
 )
 
-from sqlalchemy.sql import select
 from sqlalchemy.exc import SQLAlchemyError
 
 from database.mod import create_db_engine

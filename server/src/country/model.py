@@ -1,7 +1,7 @@
 """
-Country
+Country Model
 
-Model representing country and countrylanguage database tables.
+Module contains representation for country and countrylanguage database tables.
 
 SCHEMA:
 
@@ -44,6 +44,9 @@ from sqlalchemy import (
     ForeignKey
 )
 
+from sqlalchemy.sql import select
+from sqlalchemy.exc import SQLAlchemyError
+
 from database.mod import create_db_engine
 
 Country = Table('country', MetaData(create_db_engine()),
@@ -68,3 +71,29 @@ Language = Table('countrylanguage', MetaData(create_db_engine()),
                  Column('language', String, primary_key=True),
                  Column('isofficial', Boolean),
                  Column('percentage', Float))
+
+def fetch_regions(conn, continent):
+    try:
+        stmt = select([Country.c.region]) \
+               .where(Country.c.continent == continent) \
+               .group_by('region')
+
+        return conn.execute(stmt).fetchall()
+
+    except SQLAlchemyError as err:
+        print(err)
+
+    finally:
+        conn.close()
+
+def fetch_countries(conn, region):
+    try:
+        stmt = Country.select().where(Country.c.region == region)
+
+        return conn.execute(stmt).fetchall()
+
+    except SQLAlchemyError as err:
+        print(err)
+
+    finally:
+        conn.close()
