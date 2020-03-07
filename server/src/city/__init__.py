@@ -28,7 +28,6 @@ responses:
            countrycode,
            district,
            population }, ... ]
-
 """
 
 create_city.__doc__ = """
@@ -58,6 +57,20 @@ DELETE /api/city/<id>
 
 params:
     - id: Identifier corresponding to database record id.
+
+responses:
+    200:
+        None
+"""
+
+update_city.__doc__ = """
+Update existing city.
+
+PUT /api/city/<id>
+
+params:
+    - id: Identifier of city.
+    - city: Payload representing new desired values of city record.
 
 responses:
     200:
