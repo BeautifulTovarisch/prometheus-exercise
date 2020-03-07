@@ -7,12 +7,14 @@ Module containing abstraction layer for API and database interaction.
 from city.api import (
     get_cities,
     create_city,
-    update_city
+    update_city,
+    delete_city
 )
 
 get_cities.__doc__= """
-HTTP Method: GET
 Retrieve cities for a given country.
+
+GET /api/city/<country>
 
 params:
     - country: 3-letter country code.
@@ -30,11 +32,12 @@ responses:
 """
 
 create_city.__doc__ = """
-HTTP Method: POST
 Create new city.
 
+POST /api/city
+
 params:
-    - city: payload in the form:
+    - city: Payload in the form:
 
         {
           name,
@@ -46,4 +49,17 @@ params:
 responses:
     200:
         Id of created city
+"""
+
+delete_city.__doc__ = """
+Delete city.
+
+DELETE /api/city/<id>
+
+params:
+    - id: Identifier corresponding to database record id.
+
+responses:
+    200:
+        None
 """
