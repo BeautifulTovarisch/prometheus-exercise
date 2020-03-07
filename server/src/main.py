@@ -3,13 +3,10 @@
 from flask import Flask
 from city.api import city_api
 
-app = Flask(__name__)
-app.config["APPLICATION_ROOT"] = '/v0/api'
+app = Flask('world-data-viewer')
 
-app.register_blueprint(city_api, url_prefix='/city')
+API = '/v0/api'
 
-@app.route('/')
-def index():
-    return 'OK'
+app.register_blueprint(city_api, url_prefix=f'{API}/city')
 
-app.run(host='0.0.0.0')
+app.run(host='0.0.0.0', port=2305)

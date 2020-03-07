@@ -20,6 +20,8 @@ TODO:
 """
 
 from sqlalchemy import (
+    func,
+
     Table,
     Column,
     String,
@@ -78,7 +80,7 @@ def update(conn, id, city):
 # Fetch cities by country code
 def search(conn, country):
     try:
-        stmt = City.select().where(City.c.countrycode == country)
+        stmt = City.select().where(func.lower(City.c.countrycode) == func.lower(country))
 
         return conn.execute(stmt).fetchall()
 

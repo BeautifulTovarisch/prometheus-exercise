@@ -16,9 +16,7 @@ const continents = [
     'South America'
 ];
 
-export const Continents = () => {
-
-    return (
+export const Continents = () =>
         <div className="h-100">
           <div className="form-group">
             <ul>
@@ -31,9 +29,7 @@ export const Continents = () => {
               }
             </ul>
           </div>
-        </div>
-    );
-};
+        </div>;
 
 
 export const Continent = () => {
