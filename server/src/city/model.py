@@ -14,8 +14,7 @@ city
 
 FUNCTIONS:
 
-Database functions to abstract City CRUD operations. Connection are returned to pool after
-each operation.
+Database functions to abstract City CRUD operations.
 
     - fetch: Query a city by ID
     - search: Query a city by country code
@@ -23,8 +22,8 @@ each operation.
     - create: Create a new city
     - delete: Remove a city
 
-Raises:
-    - SQLAlchemyError: General exception caught for convenience
+RAISES:
+    - SQLAlchemyError
 
 TODO:
     - Handle more specific exceptions

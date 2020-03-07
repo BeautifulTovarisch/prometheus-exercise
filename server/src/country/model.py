@@ -27,6 +27,15 @@ countrylanguage
     - language
     - isofficial
     - percentage
+
+FUNCTIONS:
+    -
+    -
+    -
+    -
+
+RAISES:
+    - SQLAlchemyError
 """
 
 from sqlalchemy import (
