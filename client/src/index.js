@@ -1,22 +1,26 @@
+
 'use strict';
 
 import React, { useState, useEffect, Component } from 'react';
 import ReactDom from 'react-dom';
 
+import { BrowserRouter as Router } from 'react-router-dom';
+
 import "regenerator-runtime/runtime";
 
-import Editor from './Editor/editor';
+import Routes from './Routes/routes';
 
 const App = () => {
     return (
-            <div id="wrapper" className="h-100">
-              <div className="container">
-                <div className="row">
-                  <div className="text-center col-sm">World Data Viewer</div>
-                </div>
-                  <div className="row"></div>
+        <div id="wrapper" className="h-100">
+          <Router>
+            <div className="container">
+              <div className="row">
+                <Routes />
               </div>
             </div>
+          </Router>
+        </div>
     );
 };
 

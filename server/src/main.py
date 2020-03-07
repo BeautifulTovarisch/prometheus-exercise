@@ -4,9 +4,9 @@ from flask import Flask
 from city.api import city_api
 
 app = Flask(__name__)
-app.config["APPLICATION_ROOT"] = "/v0/api"
+app.config["APPLICATION_ROOT"] = '/v0/api'
 
-app.register_blueprint(city_api)
+app.register_blueprint(city_api, url_prefix='/city')
 
 @app.route('/')
 def index():
