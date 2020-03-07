@@ -1,11 +1,6 @@
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 const CopyPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
-const isDev = process.env.NODE_ENV === 'development';
-
-const cssLoader = isDev ? 'style-loader' : MiniCssExtractPlugin.loader;
 
 module.exports = {
     entry: {
@@ -26,18 +21,9 @@ module.exports = {
                 use: 'babel-loader'
             },
             {
-                test: /\.css$/,
+                test: /\.css$/i,
                 exclude: /node_modules/,
-                use: [
-                    cssLoader,
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            sourceMap: true,
-                            modules: true
-                        }
-                    }
-                ]
+                use: ['style-loader', 'css-loader']
             }
         ]
     },

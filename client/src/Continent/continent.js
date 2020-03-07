@@ -1,7 +1,7 @@
 'use strict';
 
-import React, { useState, useEffect } from 'react';
-
+import React, { Fragment, useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { Link, useParams } from 'react-router-dom';
 
 import { getRegionsByContinent } from './continent.api';
@@ -16,21 +16,41 @@ const continents = [
     'South America'
 ];
 
-export const Continents = () =>
-        <div className="h-100">
-          <div className="form-group">
+const ListHeader = styled.h2`
+
+`;
+
+export const Continents = () => {
+    const [regions, setRegions] = useState([ 1, 2, 3 ]);
+
+    // Currently selected continent
+    const [selected, setSelected] = useState(0);
+
+    return (
+        <Fragment>
+          <div className='col'>
+            <h2>Continents</h2>
             <ul>
               {
                   continents.map((continent, i) => (
-                      <li key={i}>
-                        <Link to={ `/${continent.toLowerCase()}` }>{ continent }</Link>
-                      </li>
+                      <li key={i}>{ continent }</li>
                   ))
+              }            
+            </ul>
+          </div>
+          <div className='col'>
+            <h2>Regions</h2>
+            <ul>
+              {
+                  regions.map((continent, i) =>
+                              <li key={i}>{ continent }</li>
+                             )
               }
             </ul>
           </div>
-        </div>;
-
+        </Fragment>
+    );
+};
 
 export const Continent = () => {
     const { continent } = useParams();
