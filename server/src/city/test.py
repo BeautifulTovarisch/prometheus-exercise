@@ -5,9 +5,19 @@
 # methods could be implemented
 
 from unittest import TestCase
-from city.model import City, create, update
+from city.model import (
+    City,
+    create,
+    delete,
+    search,
+    update
+)
 
 from database.mod import create_db_engine
+
+def _fetch(conn, id):
+    query = City.select().where(City.c.id == id)
+    return conn.execute(query).fetchone()
 
 def _create(conn, city):
     stmt = City.insert().values(city)
@@ -17,12 +27,8 @@ def _cleanup(conn, id):
     delete = City.delete().where(City.c.id == id)
     conn.execute(delete)
 
-def _select_by_id(conn, id):
-    query = City.select().where(City.c.id == id)
-    return conn.execute(query).fetchone()
-
 class Test(TestCase):
-    def test_city_create(self):
+    def test_create(self):
         conn = create_db_engine().connect()
 
         # Utility connection kept open until test completion for cleanup, fetching etc..
@@ -40,7 +46,7 @@ class Test(TestCase):
         _cleanup(u_conn, id)
         u_conn.close()
 
-    def test_city_update(self):
+    def test_update(self):
         conn = create_db_engine().connect()
 
         u_conn = create_db_engine().connect()
@@ -55,11 +61,11 @@ class Test(TestCase):
 
         id = _create(u_conn, city)
 
-        created = _select_by_id(u_conn, id)
+        created = _fetch(u_conn, id)
 
         update(conn, id, data)
 
-        updated = _select_by_id(u_conn, id)
+        updated = _fetch(u_conn, id)
 
         _cleanup(u_conn, id)
 
@@ -67,3 +73,15 @@ class Test(TestCase):
         self.assertEqual(updated['district'], "B")
 
         u_conn.close()
+
+    def test_fetch(self):
+        expected = ['Kabul',
+                    'Qandahar',
+                    'Herat',
+                    'Mazar-e-Sharif']
+
+        conn = create_db_engine().connect()
+
+        cities = [city['name'] for city in search(conn, 'AFG')]
+
+        self.assertEqual(expected, cities)

@@ -12,16 +12,6 @@ city
     - district
     - population
 
-FUNCTIONS:
-
-Database functions to abstract City CRUD operations.
-
-    - fetch: Query a city by ID
-    - search: Query a city by country code
-    - update: Update an existing city
-    - create: Create a new city
-    - delete: Remove a city
-
 RAISES:
     - SQLAlchemyError
 
@@ -86,13 +76,12 @@ def update(conn, id, city):
     finally:
         conn.close()
 
-def fetch(conn, id):
+# Fetch cities by country code
+def search(conn, country):
     try:
-        selection = City.select().where(City.c.id == id)
+        stmt = City.select().where(City.c.countrycode == country)
 
-        conn.execute(selection).fetchone()
-
-        return selection
+        return conn.execute(stmt).fetchall()
 
     except SQLAlchemyError as err:
         print(err)

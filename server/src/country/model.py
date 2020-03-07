@@ -28,12 +28,6 @@ countrylanguage
     - isofficial
     - percentage
 
-FUNCTIONS:
-    -
-    -
-    -
-    -
-
 RAISES:
     - SQLAlchemyError
 """
