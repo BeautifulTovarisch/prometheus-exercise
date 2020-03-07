@@ -27,7 +27,7 @@ def _cleanup(conn, id):
     delete = City.delete().where(City.c.id == id)
     conn.execute(delete)
 
-class Test(TestCase):
+class TestCityIntegration(TestCase):
     def test_create(self):
         conn = create_db_engine().connect()
 
