@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Link, useParams } from 'react-router-dom';
 
-import { getCountriesByContinent } from './continent.api';
+import { getRegionsByContinent } from './continent.api';
 
 const continents = [
     'Asia',
@@ -46,18 +46,24 @@ export const Continent = () => {
     useEffect(() => {
         (async () => {
             try {
-                const result = await getCountriesByContinent(continent);
+                const result = await getRegionsByContinent(continent);
                 setCountries(result);
-            } catch(erro) {
+            } catch(error) {
                 setError(error);
             } finally {
                 setLoading(false);
-            }    
+            }
         })();
     }, []);
 
     return (
-        <span>{ continent }</span>
+        <span>
+          {
+              countries.map((country, i) => (
+                  <span key={i}>{country}</span>
+              ))
+          }
+        </span>
     );
 };
 

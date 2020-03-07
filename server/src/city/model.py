@@ -5,8 +5,7 @@ Model representing a city in a particular country.
 
 SCHEMA:
 
-Table Name: city
-
+city
     - id
     - name
     - countrycode
@@ -44,7 +43,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from database.mod import create_db_engine
 
-City = Table('city', MetaData(create_db_engine),
+City = Table('city', MetaData(create_db_engine()),
              Column('id', Integer, primary_key=True),
              Column('name', String),
              Column('countrycode', String(3)),
