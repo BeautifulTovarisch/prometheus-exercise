@@ -4,9 +4,13 @@ City
 Module containing abstraction layer for API and database interaction.
 """
 
-from city.api import get
+from city.api import (
+    get_cities,
+    create_city,
+    update_city
+)
 
-get.__doc__= """
+get_cities.__doc__= """
 HTTP Method: GET
 Retrieve cities for a given country.
 
@@ -23,4 +27,23 @@ responses:
            district,
            population }, ... ]
 
+"""
+
+create_city.__doc__ = """
+HTTP Method: POST
+Create new city.
+
+params:
+    - city: payload in the form:
+
+        {
+          name,
+          countrycode,
+          district,
+          population
+        }
+
+responses:
+    200:
+        Id of created city
 """
