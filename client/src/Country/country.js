@@ -44,7 +44,7 @@ const NoData = () => {
 
 const Cities = ({ cities }) =>
       cities.length && (
-          <table className='table table-borderless'>
+          <table className='table table-borderless table-responsive'>
             <thead>
               <tr>
                 <th className='text-left'>City</th>
@@ -68,11 +68,11 @@ const Cities = ({ cities }) =>
 
 const Languages = ({ languages }) =>
       languages.length && (
-          <table className='table table-borderless'>
+          <table className='table table-borderless table-responsive'>
             <thead>
               <tr>
                 <th className='text-left'>Language</th>
-                <th className='text-right'>Spoken By</th>
+                <th className='text-right'>Usage</th>
                 <th></th>
               </tr>
             </thead>
@@ -166,7 +166,7 @@ export const Country = () => {
                 to={`/countries/${country.region}`}
                 className='btn btn-outline-primary'>Back</Link>
               <div className='row'>
-                <div className='col-md-8 col-sm-12 offset-md-2'>
+                <div className='col-md-5 col-sm-12 offset-md-2'>
                   <InfoCard className='card'>
                     <div className='card-body'>
                       <h2 className='card-title'>{country.name}</h2>
@@ -178,17 +178,18 @@ export const Country = () => {
                     </div>
                   </InfoCard>
                 </div>
-              </div>
-              <div className='row'>
-                <div className='col-md-4 col-sm-12 offset-md-2'>
-                  <Cities cities={cities} />
-                </div>
-                <div className='col-md-4 col-sm-12 offset-sm-2'>
+                <div className='col-md-3 col-sm-12 offset-sm-1'>
                   <Languages languages={country.languages} />
                 </div>
               </div>
+              <div className='row'>
+                <div className='col-md-5 col-sm-12 offset-md-2 h-50'>
+                  <h4>Cities</h4>
+                  <Cities cities={cities} />
+                </div>
+              </div>
             </Fragment>
-    );
+          );
 };
 
 export const Countries = () => {
