@@ -3,4 +3,4 @@
 import { get } from 'axios';
 
 export const getRegionsByContinent = continent =>
-    get(`/v0/api/country/${continent}`);
+    get(`/api/country/${continent}`);

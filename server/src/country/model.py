@@ -94,7 +94,7 @@ def fetch_regions(conn, continent):
 def fetch_countries(conn, region):
     try:
         stmt = select([Country.c.code, Country.c.name]) \
-               .where(Country.c.region == region)
+               .where(func.lower(Country.c.region) == func.lower(region))
 
         return conn.execute(stmt).fetchall()
 

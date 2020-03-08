@@ -2,7 +2,7 @@
 
 import React, { Fragment, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { getRegionsByContinent } from './continent.api';
 
@@ -17,7 +17,7 @@ const continents = [
 ];
 
 const RegionMenuItem = styled(Link)`
-font-size: 1.15em;
+font-size: 1.35em;
 border: none;
 background-color: transparent;
 `;
@@ -43,10 +43,16 @@ export const Continents = () => {
     useEffect(() => {
         (async () => {
             try {
+                setLoading(true);
+
                 const { data } = await getRegionsByContinent(continents[selected]);
+
                 setRegions(data);
+                setError(null);
+
             } catch(error) {
                 setError(error);
+
             } finally {
                 setLoading(false);
             }
