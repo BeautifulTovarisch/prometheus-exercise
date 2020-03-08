@@ -183,14 +183,15 @@ export const Country = () => {
                     </div>
                   </InfoCard>
                 </div>
-                <div className='col-md-4 col-sm-12 offset-sm-1'>
-                  <Languages languages={country.languages} />
-                </div>
               </div>
               <div className='row'>
                 <div className='col-md-5 col-sm-12 offset-md-2'>
                   <h4>Cities</h4>
                   <Cities cities={cities} />
+                </div>
+                <div className='col-md-4 col-sm-12 offset-sm-1'>
+                  <h4>Languages</h4>
+                  <Languages languages={country.languages} />
                 </div>
               </div>
             </Fragment>
