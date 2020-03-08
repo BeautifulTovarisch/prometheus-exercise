@@ -127,14 +127,13 @@ def _collate_languages(acc, record):
 def select_country(conn, country_code):
     try:
         stmt = select([Country, Language]).select_from(
-            Country.join(Language,
-                         Country.c.code == Language.c.countrycode),
+            Country.join(Language, Country.c.code == Language.c.countrycode)
         ).where(Country.c.code == country_code)
 
         countries = conn.execute(stmt).fetchall()
 
         if not countries:
-            return []
+            return {}
 
         return {**countries[0], **reduce(_collate_languages, countries, {'languages': []})}
 
