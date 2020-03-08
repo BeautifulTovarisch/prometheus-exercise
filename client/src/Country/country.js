@@ -6,6 +6,33 @@ import { Link, useParams } from 'react-router-dom';
 
 import { getCountriesByRegion } from './country.api';
 
+const CountryMenuItem = styled(Link)`
+border: 0;
+font-size: 1.35em;
+background: transparent;
+`;
+
+export const Country = () => {
+    const { country } = useParams();
+
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+
+
+            } catch(err) {
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        })();
+    });
+};
+
 export const Countries = () => {
     const { region } = useParams();
 
@@ -34,13 +61,19 @@ export const Countries = () => {
     }, [region]);
 
     return (
-        <div>
-          <Link to='/'>Back</Link>
+        <div className='col'>
+          <button className='btn btn-outline-primary'><Link to='/'>Back</Link></button>
+          <ul className='list-group list-group-flush text-center'>
           {
               countries.map((country, i) => (
-                  <span key={i}>{country.name}</span>
+                  <CountryMenuItem
+                    key={i}
+                    className='list-group-item'>
+                    {country.name}
+                  </CountryMenuItem>
               ))
           }
+          </ul>
         </div>
     );
 };
