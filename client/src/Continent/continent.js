@@ -32,7 +32,7 @@ background-color: transparent;
 `;
 
 export const Continents = () => {
-    const [regions, setRegions] = useState({ 'data': [] });
+    const [regions, setRegions] = useState([]);
 
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -43,8 +43,8 @@ export const Continents = () => {
     useEffect(() => {
         (async () => {
             try {
-                const result = await getRegionsByContinent(continents[selected]);
-                setRegions(result);
+                const { data } = await getRegionsByContinent(continents[selected]);
+                setRegions(data);
             } catch(error) {
                 setError(error);
             } finally {
@@ -75,7 +75,7 @@ export const Continents = () => {
             <h2>Regions</h2>
             <ul className='list-group list-group-flush'>
               {
-                  regions.data.map((region, i) =>(
+                  regions.map((region, i) =>(
                       <RegionMenuItem
                         key={i}
                         to={`/countries/${region}`}
@@ -87,36 +87,6 @@ export const Continents = () => {
             </ul>
           </div>
         </div>
-    );
-};
-
-export const Continent = () => {
-    const { continent } = useParams();
-
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [countries, setCountries] = useState([]);
-
-    useEffect(() =>
-        (async () => {
-            try {
-                const result = await getRegionsByContinent(continent);
-                setCountries(result);
-            } catch(error) {
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
-        })(), []);
-
-    return (
-        <span>
-          {
-              countries.map((country, i) => (
-                  <span key={i}>{country}</span>
-              ))
-          }
-        </span>
     );
 };
 
