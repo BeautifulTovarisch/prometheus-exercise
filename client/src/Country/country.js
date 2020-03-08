@@ -6,14 +6,19 @@ import { Link, useParams, useHistory } from 'react-router-dom';
 
 import { getCities, getCountry, getCountriesByRegion } from './country.api';
 
-const InfoCard = styled.div`
-border: 0;
-background-color transparent;
-`;
-
 const Stat = styled.li`
 font-size: 1.20em;
 font-weight: 500;
+`;
+
+const Table = styled.table`
+height: 350px;
+overflow-y: scroll;
+`;
+
+const InfoCard = styled.div`
+border: 0;
+background-color transparent;
 `;
 
 const CountryMenuItem = styled(Link)`
@@ -44,7 +49,7 @@ const NoData = () => {
 
 const Cities = ({ cities }) =>
       cities.length && (
-          <table className='table table-borderless table-responsive'>
+          <Table className='table table-borderless table-responsive'>
             <thead>
               <tr>
                 <th className='text-left'>City</th>
@@ -63,12 +68,12 @@ const Cities = ({ cities }) =>
                   ))
               }
             </tbody>
-          </table>
+          </Table>
       ) || <p className='card-text'>No city data available.</p>;
 
 const Languages = ({ languages }) =>
       languages.length && (
-          <table className='table table-borderless table-responsive'>
+          <Table className='table table-borderless table-responsive'>
             <thead>
               <tr>
                 <th className='text-left'>Language</th>
@@ -89,7 +94,7 @@ const Languages = ({ languages }) =>
                   ))
               }
             </tbody>
-          </table>
+          </Table>
       ) || <p className='card-text'>No language data available.</p>;
 
 const CountryData = ({ country }) =>
@@ -178,12 +183,12 @@ export const Country = () => {
                     </div>
                   </InfoCard>
                 </div>
-                <div className='col-md-3 col-sm-12 offset-sm-1'>
+                <div className='col-md-4 col-sm-12 offset-sm-1'>
                   <Languages languages={country.languages} />
                 </div>
               </div>
               <div className='row'>
-                <div className='col-md-5 col-sm-12 offset-md-2 h-50'>
+                <div className='col-md-5 col-sm-12 offset-md-2'>
                   <h4>Cities</h4>
                   <Cities cities={cities} />
                 </div>
