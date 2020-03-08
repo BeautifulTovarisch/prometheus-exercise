@@ -4,7 +4,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useParams, useHistory } from 'react-router-dom';
 
-import { getCountry, getCountriesByRegion } from './country.api';
+import { getCities, getCountry, getCountriesByRegion } from './country.api';
 
 const InfoCard = styled.div`
 border: 0;
@@ -41,6 +41,30 @@ const NoData = () => {
         </div>
     );
 };
+
+const Cities = ({ cities }) =>
+      cities.length && (
+          <table className='table table-borderless'>
+            <thead>
+              <tr>
+                <th className='text-left'>City</th>
+                <th className='text-left'>District</th>
+                <th className='text-right'>Population</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                  cities.map(({name, district, population}, i) => (
+                      <tr key={i}>
+                        <td className='text-left'>{name}</td>
+                        <td className='text-left'>{district}</td>
+                        <td className='text-right'>{population.toLocaleString()}</td>
+                      </tr>
+                  ))
+              }
+            </tbody>
+          </table>
+      ) || <p className='card-text'>No city data available.</p>;
 
 const Languages = ({ languages }) =>
       languages.length && (
@@ -116,6 +140,25 @@ export const Country = () => {
         })();
     }, [code]);
 
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+
+                const { data } = await getCities(code);
+                setCities(data);
+
+                setLoading(false);
+
+            } catch(err) {
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, [code]);
+
+
     return isEmpty(country)
         ? <NoData></NoData>
         : ( <Fragment>
@@ -123,7 +166,7 @@ export const Country = () => {
                 to={`/countries/${country.region}`}
                 className='btn btn-outline-primary'>Back</Link>
               <div className='row'>
-                <div className='col-8 offset-md-2'>
+                <div className='col-md-8 col-sm-12 offset-md-2'>
                   <InfoCard className='card'>
                     <div className='card-body'>
                       <h2 className='card-title'>{country.name}</h2>
@@ -132,10 +175,16 @@ export const Country = () => {
                         {country.region}
                       </h4>
                       <CountryData country={country} />
-                      <h4>Languages and Cities</h4>
-                      <Languages languages={country.languages} />
                     </div>
                   </InfoCard>
+                </div>
+              </div>
+              <div className='row'>
+                <div className='col-md-4 col-sm-12 offset-md-2'>
+                  <Cities cities={cities} />
+                </div>
+                <div className='col-md-4 col-sm-12 offset-sm-2'>
+                  <Languages languages={country.languages} />
                 </div>
               </div>
             </Fragment>
