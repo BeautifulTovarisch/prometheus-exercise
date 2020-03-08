@@ -8,6 +8,16 @@ Simple data viewer for hierarchically displaying data from a [sample data set](#
 
 ## Overview ##
 
+|Software|Version|
+|--------|-------|
+|Client||
+|[React](https://reactjs.org/docs/getting-started.html)|^16.12.0|
+|[Webpack](https://webpack.js.org/concepts/)|^4.41.5|
+|[Styled Components](https://styled-components.com/docs)|^5.0.1|
+|Server||
+|[Python](https://docs.python.org/3/)|3.8.0|
+|[Flask](https://flask.palletsprojects.com/en/1.1.x/)|1.1.1|
+|[SQLAlchemy](https://docs.sqlalchemy.org/en/13/)|1.3.13|
 
 ## Installation ##
 
