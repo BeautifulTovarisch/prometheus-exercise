@@ -11,6 +11,11 @@ border: 0;
 background-color transparent;
 `;
 
+const Stat = styled.li`
+font-size: 1.20em;
+font-weight: 500;
+`;
+
 const CountryMenuItem = styled(Link)`
 border: 0;
 font-size: 1.35em;
@@ -19,6 +24,7 @@ background: transparent;
 
 const officialLanguage = language =>
       language.isofficial && <span className='badge badge-primary'>Official</span>;
+
 
 const NoData = () => {
     const history = useHistory();
@@ -41,26 +47,44 @@ const Languages = ({ languages }) =>
           <table className='table table-borderless'>
             <thead>
               <tr>
-                <th></th>
                 <th className='text-left'>Language</th>
                 <th className='text-right'>Spoken By</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {
                   languages.map((language, i) => (
                       <tr key={i}>
-                        <th scop='row'>{officialLanguage(language)}</th>
                         <td className='text-left'>{language.language}</td>
                         <td className='text-right'>
                           {language.percentage.toFixed(2)}%
                         </td>
+                        <th scop='row'>{officialLanguage(language)}</th>
                       </tr>
                   ))
               }
             </tbody>
           </table>
       ) || <p className='card-text'>No language data available.</p>;
+
+const CountryData = ({ country }) =>
+      <ul className='list-unstyled mb-3 list-group list-group-flush d-flex flex-row flex-wrap'>
+        <Stat className='w-50'>{country.gnp.toLocaleString()}</Stat>
+        <Stat className='w-50'>Gross National Product</Stat>
+
+        <Stat className='w-50'>{country.gnpold.toLocaleString()}</Stat>
+        <Stat className='w-50'>Gross National Product (old)</Stat>
+
+        <Stat className='w-50'>{country.governmentform}</Stat>
+        <Stat className='w-50'>Government</Stat>
+
+        <Stat className='w-50'>{country.headofstate}</Stat>
+        <Stat className='w-50'>Head of State</Stat>
+
+        <Stat className='w-50'>{country.indepyear}</Stat>
+        <Stat className='w-50'>Independence Year</Stat>
+      </ul>;
 
 export const Country = () => {
     const { code } = useParams();
@@ -104,10 +128,11 @@ export const Country = () => {
                     <div className='card-body'>
                       <h2 className='card-title'>{country.name}</h2>
                       <h4 className='card-subtitle mb-3 text-muted'>{country.code}</h4>
-                      <h4 className='card-subtitle text-muted'>
+                      <h4 className='card-subtitle text-muted mb-3'>
                         {country.region}
                       </h4>
-                      <p className='card-text'></p>
+                      <CountryData country={country} />
+                      <h4>Languages and Cities</h4>
                       <Languages languages={country.languages} />
                     </div>
                   </InfoCard>
