@@ -123,7 +123,7 @@ export const Country = () => {
                 to={`/countries/${country.region}`}
                 className='btn btn-outline-primary'>Back</Link>
               <div className='row'>
-                <div className='col-6 offset-md-3'>
+                <div className='col-8 offset-md-2'>
                   <InfoCard className='card'>
                     <div className='card-body'>
                       <h2 className='card-title'>{country.name}</h2>
