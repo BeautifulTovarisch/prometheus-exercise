@@ -81,14 +81,19 @@ export const Continents = () => {
             <h2>Regions</h2>
             <ul className='list-group list-group-flush'>
               {
-                  regions.map((region, i) =>(
+                  regions.length ? regions.map((region, i) =>(
                       <RegionMenuItem
                         key={i}
                         to={`/countries/${region}`}
                         className='list-group-item'>
                         { region }
                       </RegionMenuItem>
-                  ))
+                  )) : <RegionMenuItem
+                         key={selected}
+                         to={`/countries/${continents[selected]}`}
+                         className='list-group-item'>
+                         { continents[selected] }
+                       </RegionMenuItem>
               }
             </ul>
           </div>
