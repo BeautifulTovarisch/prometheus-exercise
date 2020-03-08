@@ -1,0 +1,59 @@
+---
+# Development compose file
+
+version: '3.7'
+services:
+  server:
+    tty: true
+    init: true
+    build:
+      context: ./server
+      target: development
+    networks:
+      - backend
+      - database
+
+    environment:
+      USER_PASSWORD: "data_viewer_password"
+
+    volumes:
+      - ./server/src:/app/world-data-viewer/src/
+
+  client:
+    tty: true
+    init: true
+    build:
+      context: ./client
+      target: development
+    ports:
+      - 3000:3000
+    networks:
+      - backend
+
+    volumes:
+      - ./client:/app
+      - node_modules:/app/node_modules
+
+  database:
+    tty: true
+    image: postgres:11.7
+    networks:
+      - database
+    environment:
+      USER_PASSWORD: "data_viewer_password"
+      POSTGRES_PASSWORD: "dev_password_only"
+
+    volumes:
+      # Initializes postgres with world.sql, creates read-only user
+      - ./db-init/sql:/docker-entrypoint-initdb.d/sql
+      - ./db-init/load-data.sh:/docker-entrypoint-initdb.d/load-data.sh
+
+      - data:/var/lib/postgresql/data
+
+networks:
+  backend:
+  database:
+
+volumes:
+  data:
+  node_modules:
