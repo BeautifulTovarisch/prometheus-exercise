@@ -104,6 +104,13 @@ def fetch_countries(conn, region):
     finally:
         conn.close()
 
+# Replace any non-serializable attributes with a string
+def _map_country(acc, record):
+    return {**acc, **record, **{
+        'gnp': float(record['gnp'] or 0.0),
+        'gnpold': float(record['gnpold'] or 0.0)
+    }}
+
 def _map_language(record):
     return {
         "language": record['language'],
@@ -113,6 +120,7 @@ def _map_language(record):
 
 # Gathers language attributes into convenient collection
 def _collate_languages(acc, record):
+    acc = _map_country(acc, record)
     acc['languages'].append(_map_language(record))
     return acc
 
@@ -120,7 +128,7 @@ def select_country(conn, country_code):
     try:
         stmt = select([Country, Language]).select_from(
             Country.join(Language,
-                         Country.c.code == Language.c.countrycode)
+                         Country.c.code == Language.c.countrycode),
         ).where(Country.c.code == country_code)
 
         countries = conn.execute(stmt).fetchall()
