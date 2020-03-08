@@ -17,6 +17,9 @@ font-size: 1.35em;
 background: transparent;
 `;
 
+const officialLanguage = language =>
+      language.isofficial && <span className='badge badge-primary'>Official</span>;
+
 const NoData = () => {
     const history = useHistory();
     return (
@@ -24,7 +27,7 @@ const NoData = () => {
           <div className='col'>
             <button
               onClick={ () => history.goBack() }
-              className='btn btn-outline-primary'>
+              className='btn btn-outline-primary mb-3'>
               Back
             </button>
             <h3 className='text-center'>No Data available for this country.</h3>
@@ -32,6 +35,32 @@ const NoData = () => {
         </div>
     );
 };
+
+const Languages = ({ languages }) =>
+      languages.length && (
+          <table className='table table-borderless'>
+            <thead>
+              <tr>
+                <th></th>
+                <th className='text-left'>Language</th>
+                <th className='text-right'>Spoken By</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                  languages.map((language, i) => (
+                      <tr key={i}>
+                        <th scop='row'>{officialLanguage(language)}</th>
+                        <td className='text-left'>{language.language}</td>
+                        <td className='text-right'>
+                          {language.percentage.toFixed(2)}%
+                        </td>
+                      </tr>
+                  ))
+              }
+            </tbody>
+          </table>
+      ) || <p className='card-text'>No language data available.</p>;
 
 export const Country = () => {
     const { code } = useParams();
@@ -63,9 +92,6 @@ export const Country = () => {
         })();
     }, [code]);
 
-    const officialLanguage = language =>
-          language.isofficial && <span className='badge badge-primary'>Official</span>;
-
     return isEmpty(country)
         ? <NoData></NoData>
         : ( <Fragment>
@@ -82,29 +108,7 @@ export const Country = () => {
                         {country.region}
                       </h4>
                       <p className='card-text'></p>
-
-                      <table className='table table-borderless'>
-                        <thead>
-                          <tr>
-                            <th></th>
-                            <th className='text-left'>Language</th>
-                            <th className='text-right'>Spoken By</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {
-                              country.languages.map((language, i) => (
-                                  <tr key={i}>
-                                    <th scop='row'>{officialLanguage(language)}</th>
-                                    <td className='text-left'>{language.language}</td>
-                                    <td className='text-right'>
-                                      {language.percentage.toFixed(2)}%
-                                    </td>
-                                  </tr>
-                              ))
-                          }
-                        </tbody>
-                      </table>
+                      <Languages languages={country.languages} />
                     </div>
                   </InfoCard>
                 </div>
