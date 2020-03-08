@@ -38,9 +38,7 @@ const App = () => {
                 <TagLine>Select a continent to browse countries and cities</TagLine>
                 <TagLine>in that region of the world.</TagLine>
                </Header>
-              <div className="row">
-                <Routes />
-              </div>
+              <Routes />
             </div>
           </Router>
         </main>

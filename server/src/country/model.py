@@ -33,6 +33,8 @@ RAISES:
 """
 
 from sqlalchemy import (
+    func,
+
     Float,
     Table,
     Column,
@@ -77,7 +79,7 @@ Language = Table('countrylanguage', MetaData(create_db_engine()),
 def fetch_regions(conn, continent):
     try:
         stmt = select([Country.c.region]) \
-               .where(Country.c.continent == continent) \
+               .where(func.lower(Country.c.continent) == func.lower(continent)) \
                .group_by('region')
 
         return conn.execute(stmt).fetchall()

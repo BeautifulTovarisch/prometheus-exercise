@@ -16,39 +16,77 @@ const continents = [
     'South America'
 ];
 
-const ListHeader = styled.h2`
+const RegionMenuItem = styled(Link)`
+font-size: 1.15em;
+border: none;
+background-color: transparent;
+`;
 
+const ContinentMenuItem = styled.li`
+font-size: 1.50em;
+border-bottom: ${props => props.active ? '1px solid palevioletred': 0};
+background-color: transparent;
+&:hover {
+  cursor: pointer;
+}
 `;
 
 export const Continents = () => {
-    const [regions, setRegions] = useState([ 1, 2, 3 ]);
+    const [regions, setRegions] = useState({ 'data': [] });
+
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     // Currently selected continent
     const [selected, setSelected] = useState(0);
 
+    useEffect(() => {
+        (async () => {
+            try {
+                const result = await getRegionsByContinent(continents[selected]);
+                setRegions(result);
+            } catch(error) {
+                setError(error);
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, [selected]);
+
     return (
-        <Fragment>
-          <div className='col'>
+        <div className='row justify-content-around'>
+          <div className='col-md-4 col-sm-12 mb-3 mb-sm-0'>
             <h2>Continents</h2>
-            <ul>
+            <ul className='list-group list-group-flush'>
               {
                   continents.map((continent, i) => (
-                      <li key={i}>{ continent }</li>
+                      <ContinentMenuItem
+                        key={i}
+                        active={ selected === i }
+                        onClick={() => setSelected(i)}
+                        className='list-group-item'>
+                        { continent }
+                      </ContinentMenuItem>
                   ))
-              }            
-            </ul>
-          </div>
-          <div className='col'>
-            <h2>Regions</h2>
-            <ul>
-              {
-                  regions.map((continent, i) =>
-                              <li key={i}>{ continent }</li>
-                             )
               }
             </ul>
           </div>
-        </Fragment>
+          <div className='col-md-4 col-sm-12'>
+            <h2>Regions</h2>
+            <ul className='list-group list-group-flush'>
+              {
+                  regions.data.map((region, i) =>(
+                      <RegionMenuItem
+                        key={i}
+                        to={`/countries/${region}`}
+                        className='list-group-item'>
+                        { region }
+                      </RegionMenuItem>
+                  ))
+              }
+            </ul>
+          </div>
+        </div>
     );
 };
 
@@ -59,7 +97,7 @@ export const Continent = () => {
     const [loading, setLoading] = useState(true);
     const [countries, setCountries] = useState([]);
 
-    useEffect(() => {
+    useEffect(() =>
         (async () => {
             try {
                 const result = await getRegionsByContinent(continent);
@@ -69,8 +107,7 @@ export const Continent = () => {
             } finally {
                 setLoading(false);
             }
-        })();
-    }, []);
+        })(), []);
 
     return (
         <span>
