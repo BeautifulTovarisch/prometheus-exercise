@@ -2,7 +2,7 @@
 
 Simple data viewer for hierarchically displaying data from a [sample data set](#https://www.postgresql.org/ftp/projects/pgFoundry/dbsamples/world/world-1.0/ "World Dataset"). Written in React + Flask.
 
-![Continent View](./continent_view.png)
+![Continent View](img/continent_view.png)
 
 
 ## Table of Contents ##
